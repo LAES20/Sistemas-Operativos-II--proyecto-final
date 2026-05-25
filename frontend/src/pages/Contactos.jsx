@@ -78,34 +78,34 @@ export default function Contactos() {
   };
 
   return (
-    <div className="p-6 max-w-7xl mx-auto">
+    <div className="p-4 md:p-6 max-w-7xl mx-auto">
       <motion.div
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
         className="mb-8"
       >
-        <h1 className="text-4xl font-bold text-gray-900 mb-4">Mis Contactos</h1>
+        <h1 className="text-2xl md:text-4xl font-bold text-gray-900 dark:text-white mb-4">Mis Contactos</h1>
 
-        <div className="flex gap-4 flex-wrap">
-          <div className="flex-1 min-w-xs">
+        <div className="flex flex-col sm:flex-row gap-3 sm:gap-4">
+          <div className="flex-1 min-w-0">
             <div className="relative">
-              <Search className="absolute left-3 top-3 text-gray-400" size={20} />
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={18} />
               <input
                 type="text"
-                placeholder="Buscar por nombre, teléfono o email..."
+                placeholder="Buscar contacto..."
                 value={busqueda}
                 onChange={(e) => setBusqueda(e.target.value)}
-                className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full pl-10 pr-4 py-2.5 text-sm border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
               />
             </div>
           </div>
 
           <button
             onClick={handleAgregar}
-            className="bg-gradient-to-r from-blue-500 to-cyan-500 text-white px-6 py-2 rounded-lg hover:shadow-lg transition flex items-center gap-2"
+            className="bg-gradient-to-r from-blue-500 to-cyan-500 text-white px-4 py-2.5 rounded-lg hover:shadow-lg transition flex items-center justify-center gap-2 whitespace-nowrap text-sm sm:text-base"
           >
-            <Plus size={20} />
-            Agregar Contacto
+            <span className="sm:hidden">+</span>
+            <span className="hidden sm:inline">Agregar</span>
           </button>
         </div>
       </motion.div>
@@ -120,7 +120,7 @@ export default function Contactos() {
           animate={{ opacity: 1 }}
           className="text-center py-16"
         >
-          <p className="text-gray-500 text-lg">
+          <p className="text-gray-500 dark:text-gray-400 text-lg">
             {busqueda ? 'No se encontraron contactos' : 'No tienes contactos aún'}
           </p>
           {!busqueda && (

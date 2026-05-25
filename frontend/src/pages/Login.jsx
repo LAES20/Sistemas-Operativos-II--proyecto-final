@@ -106,27 +106,42 @@ export default function Login() {
     }
   };
 
-  const handleRecuperar = async (e) => {
-    e.preventDefault();
-
+  const handleGetPregunta = async () => {
+    if (!validarEmail(formulario.email)) {
+      setErrores({ email: 'Email inválido' });
+      return;
+    }
     try {
       setCargando(true);
-
-      if (!pregunta) {
-        const response = await authService.verificarPreguntaSecreta(formulario.email);
-        setPregunta(response.data.pregunta);
-      } else {
-        const response = await authService.recuperarContrasena(formulario.email, respuesta);
-        setUsuario({
-          id: 'temp',
-          email: formulario.email,
-          nombre: 'Usuario'
-        }, response.data.token);
-        mostrarNotificacion('Pregunta correcta. Cambia tu contraseña.', 'success');
-        navigate('/cambiar-contrasena');
-      }
+      const response = await authService.verificarPreguntaSecreta(formulario.email);
+      setPregunta(response.data.pregunta);
+      mostrarNotificacion('Pregunta obtenida.', 'success');
     } catch (error) {
-      mostrarNotificacion(error.response?.data?.error || 'Error', 'error');
+      mostrarNotificacion(error.response?.data?.error || 'Error al obtener pregunta', 'error');
+    } finally {
+      setCargando(false);
+    }
+  };
+
+  const handleVerificarRespuesta = async () => {
+    if (!respuesta.trim()) {
+      mostrarNotificacion('Por favor ingresa una respuesta', 'error');
+      return;
+    }
+    try {
+      setCargando(true);
+      const response = await authService.recuperarContrasena(formulario.email, respuesta);
+      setUsuario({
+        id: 'temp',
+        email: formulario.email,
+        nombre: 'Usuario'
+      }, response.data.token);
+      mostrarNotificacion('Respuesta correcta. Ahora puedes cambiar tu contraseña.', 'success');
+      setTimeout(() => {
+        navigate('/cambiar-contrasena');
+      }, 500);
+    } catch (error) {
+      mostrarNotificacion(error.response?.data?.error || 'Respuesta incorrecta', 'error');
     } finally {
       setCargando(false);
     }
@@ -137,28 +152,28 @@ export default function Login() {
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        className="bg-white rounded-2xl shadow-2xl w-full max-w-md p-8"
+        className="bg-white dark:bg-gray-800 rounded-2xl shadow-2xl w-full max-w-md p-6 md:p-8"
       >
         <div className="text-center mb-8">
           <div className="w-16 h-16 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-lg flex items-center justify-center mx-auto mb-4">
             <span className="text-white text-3xl">📇</span>
           </div>
-          <h1 className="text-3xl font-bold text-gray-900">ContactosPro</h1>
-          <p className="text-gray-600 mt-2">Tu agenda digital inteligente</p>
+          <h1 className="text-3xl font-bold text-gray-900 dark:text-white">ContactosPro</h1>
+          <p className="text-gray-600 dark:text-gray-400 mt-2">Tu agenda digital inteligente</p>
         </div>
 
         {modo === 'login' && (
-          <form onSubmit={handleLogin}>
+          <form onSubmit={handleLogin} noValidate>
             <div className="mb-4">
-              <label className="block text-sm font-medium text-gray-700 mb-1">Email</label>
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Email</label>
               <input
                 type="email"
                 name="email"
                 placeholder="tu@email.com"
                 value={formulario.email}
                 onChange={handleChange}
-                className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 transition ${
-                  errores.email ? 'border-red-500 focus:ring-red-500' : 'border-gray-300 focus:ring-blue-500'
+                className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 transition bg-white dark:bg-gray-700 dark:text-white ${
+                  errores.email ? 'border-red-500 focus:ring-red-500' : 'border-gray-300 dark:border-gray-600 focus:ring-blue-500'
                 }`}
               />
               {errores.email && <p className="text-red-500 text-sm mt-1">{errores.email}</p>}
@@ -174,7 +189,7 @@ export default function Login() {
 
             <button
               type="submit"
-              className="w-full bg-gradient-to-r from-blue-500 to-cyan-500 text-white py-2 rounded-lg hover:shadow-lg transition mt-6 font-semibold"
+              className="w-full bg-gradient-to-r from-blue-500 to-cyan-500 text-white py-2.5 rounded-lg hover:shadow-lg transition mt-6 font-semibold"
             >
               Iniciar Sesión
             </button>
@@ -205,32 +220,32 @@ export default function Login() {
         )}
 
         {modo === 'registro' && (
-          <form onSubmit={handleRegistro}>
+          <form onSubmit={handleRegistro} noValidate>
             <div className="mb-4">
-              <label className="block text-sm font-medium text-gray-700 mb-1">Nombre</label>
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Nombre</label>
               <input
                 type="text"
                 name="nombre"
                 placeholder="Tu nombre completo"
                 value={formulario.nombre}
                 onChange={handleChange}
-                className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 transition ${
-                  errores.nombre ? 'border-red-500 focus:ring-red-500' : 'border-gray-300 focus:ring-blue-500'
+                className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 transition bg-white dark:bg-gray-700 dark:text-white ${
+                  errores.nombre ? 'border-red-500 focus:ring-red-500' : 'border-gray-300 dark:border-gray-600 focus:ring-blue-500'
                 }`}
               />
               {errores.nombre && <p className="text-red-500 text-sm mt-1">{errores.nombre}</p>}
             </div>
 
             <div className="mb-4">
-              <label className="block text-sm font-medium text-gray-700 mb-1">Email</label>
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Email</label>
               <input
                 type="email"
                 name="email"
                 placeholder="tu@email.com"
                 value={formulario.email}
                 onChange={handleChange}
-                className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 transition ${
-                  errores.email ? 'border-red-500 focus:ring-red-500' : 'border-gray-300 focus:ring-blue-500'
+                className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 transition bg-white dark:bg-gray-700 dark:text-white ${
+                  errores.email ? 'border-red-500 focus:ring-red-500' : 'border-gray-300 dark:border-gray-600 focus:ring-blue-500'
                 }`}
               />
               {errores.email && <p className="text-red-500 text-sm mt-1">{errores.email}</p>}
@@ -245,30 +260,30 @@ export default function Login() {
             />
 
             <div className="mb-4">
-              <label className="block text-sm font-medium text-gray-700 mb-1">Pregunta Secreta</label>
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Pregunta Secreta</label>
               <input
                 type="text"
                 name="preguntaSecreta"
                 placeholder="¿Cuál es tu comida favorita?"
                 value={formulario.preguntaSecreta}
                 onChange={handleChange}
-                className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 transition ${
-                  errores.preguntaSecreta ? 'border-red-500 focus:ring-red-500' : 'border-gray-300 focus:ring-blue-500'
+                className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 transition bg-white dark:bg-gray-700 dark:text-white ${
+                  errores.preguntaSecreta ? 'border-red-500 focus:ring-red-500' : 'border-gray-300 dark:border-gray-600 focus:ring-blue-500'
                 }`}
               />
               {errores.preguntaSecreta && <p className="text-red-500 text-sm mt-1">{errores.preguntaSecreta}</p>}
             </div>
 
             <div className="mb-4">
-              <label className="block text-sm font-medium text-gray-700 mb-1">Respuesta Secreta</label>
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Respuesta Secreta</label>
               <input
                 type="text"
                 name="respuestaSecreta"
                 placeholder="Tu respuesta"
                 value={formulario.respuestaSecreta}
                 onChange={handleChange}
-                className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 transition ${
-                  errores.respuestaSecreta ? 'border-red-500 focus:ring-red-500' : 'border-gray-300 focus:ring-blue-500'
+                className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 transition bg-white dark:bg-gray-700 dark:text-white ${
+                  errores.respuestaSecreta ? 'border-red-500 focus:ring-red-500' : 'border-gray-300 dark:border-gray-600 focus:ring-blue-500'
                 }`}
               />
               {errores.respuestaSecreta && <p className="text-red-500 text-sm mt-1">{errores.respuestaSecreta}</p>}
@@ -276,7 +291,7 @@ export default function Login() {
 
             <button
               type="submit"
-              className="w-full bg-gradient-to-r from-blue-500 to-cyan-500 text-white py-2 rounded-lg hover:shadow-lg transition mt-6 font-semibold"
+              className="w-full bg-gradient-to-r from-blue-500 to-cyan-500 text-white py-2.5 rounded-lg hover:shadow-lg transition mt-6 font-semibold"
             >
               Registrarse
             </button>
@@ -295,9 +310,9 @@ export default function Login() {
         )}
 
         {modo === 'recuperar' && (
-          <form onSubmit={handleRecuperar}>
+          <div>
             <div className="mb-4">
-              <label className="block text-sm font-medium text-gray-700 mb-1">Email</label>
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Email</label>
               <input
                 type="email"
                 name="email"
@@ -305,27 +320,31 @@ export default function Login() {
                 value={formulario.email}
                 onChange={handleChange}
                 disabled={!!pregunta}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 transition bg-white dark:bg-gray-700 dark:text-white ${
+                  errores.email ? 'border-red-500 focus:ring-red-500' : 'border-gray-300 dark:border-gray-600 focus:ring-blue-500'
+                } ${!!pregunta ? 'bg-gray-100 dark:bg-gray-800' : ''}`}
               />
+               {errores.email && <p className="text-red-500 text-sm mt-1">{errores.email}</p>}
             </div>
 
             {pregunta && (
-              <div className="mb-4">
-                <label className="block text-sm font-medium text-gray-700 mb-1">Pregunta de Seguridad</label>
-                <p className="bg-blue-50 p-3 rounded-lg text-gray-700 mb-3">{pregunta}</p>
+              <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="mb-4">
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Pregunta de Seguridad</label>
+                <p className="bg-blue-50 dark:bg-gray-700 p-3 rounded-lg text-gray-700 dark:text-gray-300 mb-3">{pregunta}</p>
                 <input
                   type="text"
                   placeholder="Tu respuesta"
                   value={respuesta}
                   onChange={(e) => setRespuesta(e.target.value)}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white dark:bg-gray-700 dark:text-white"
                 />
-              </div>
+              </motion.div>
             )}
 
             <button
-              type="submit"
-              className="w-full bg-gradient-to-r from-blue-500 to-cyan-500 text-white py-2 rounded-lg hover:shadow-lg transition mt-6 font-semibold"
+              type="button"
+              onClick={pregunta ? handleVerificarRespuesta : handleGetPregunta}
+              className="w-full bg-gradient-to-r from-blue-500 to-cyan-500 text-white py-2.5 rounded-lg hover:shadow-lg transition mt-6 font-semibold"
             >
               {pregunta ? 'Verificar Respuesta' : 'Continuar'}
             </button>
@@ -336,12 +355,13 @@ export default function Login() {
                 setModo('login');
                 setErrores({});
                 setPregunta('');
+                setRespuesta('');
               }}
               className="w-full text-center text-blue-500 hover:text-blue-600 font-semibold mt-4"
             >
               Volver al Login
             </button>
-          </form>
+          </div>
         )}
       </motion.div>
     </div>

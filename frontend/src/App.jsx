@@ -24,22 +24,24 @@ export default function App() {
 
   return (
     <Router>
-      <div className={darkMode ? 'dark bg-gray-950 text-white' : 'bg-white text-gray-900'}>
+      <div className={`min-h-screen flex flex-col ${darkMode ? 'dark bg-gray-900' : 'bg-gray-50'}`}>
         {token && <Navbar />}
         <Notificacion />
-        <Routes>
-          <Route path="/login" element={<Login />} />
-          <Route path="/cambiar-contrasena" element={<CambiarContrasena />} />
-          <Route path="/contactos" element={<ProtectedRoute element={<Contactos />} />} />
-          <Route path="/contactos/nuevo" element={<ProtectedRoute element={<NuevoContacto />} />} />
-          <Route path="/contactos/:id/editar" element={<ProtectedRoute element={<NuevoContacto />} />} />
-          <Route path="/categorias" element={<ProtectedRoute element={<Categorias />} />} />
-          <Route path="/usuarios" element={<ProtectedRoute element={<Usuarios />} />} />
-          <Route path="/dashboard" element={<ProtectedRoute element={<Dashboard />} />} />
-          <Route path="/papelera" element={<ProtectedRoute element={<Papelera />} />} />
-          <Route path="/ayuda" element={<ProtectedRoute element={<Ayuda />} />} />
-          <Route path="/" element={token ? <Navigate to="/contactos" /> : <Navigate to="/login" />} />
-        </Routes>
+        <main className="flex-grow">
+          <Routes>
+            <Route path="/login" element={<Login />} />
+            <Route path="/cambiar-contrasena" element={<CambiarContrasena />} />
+            <Route path="/contactos" element={<ProtectedRoute element={<Contactos />} />} />
+            <Route path="/contactos/nuevo" element={<ProtectedRoute element={<NuevoContacto />} />} />
+            <Route path="/contactos/:id/editar" element={<ProtectedRoute element={<NuevoContacto />} />} />
+            <Route path="/categorias" element={<ProtectedRoute element={<Categorias />} />} />
+            <Route path="/usuarios" element={<ProtectedRoute element={<Usuarios />} />} />
+            <Route path="/dashboard" element={<ProtectedRoute element={<Dashboard />} />} />
+            <Route path="/papelera" element={<ProtectedRoute element={<Papelera />} />} />
+            <Route path="/ayuda" element={<ProtectedRoute element={<Ayuda />} />} />
+            <Route path="/" element={token ? <Navigate to="/contactos" /> : <Navigate to="/login" />} />
+          </Routes>
+        </main>
       </div>
     </Router>
   );

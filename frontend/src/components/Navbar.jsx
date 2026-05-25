@@ -45,21 +45,21 @@ export default function Navbar() {
             </span>
 
             {/* Menú horizontal para desktop */}
-            <div className="hidden md:flex gap-2">
+            <div className="hidden md:flex items-center gap-2">
               {menuItems.map(item => {
                 const Icon = item.icono;
                 return (
                   <button
                     key={item.ruta}
                     onClick={() => navigate(item.ruta)}
-                    className={`px-3 py-2 rounded-lg transition ${
+                    className={`p-2 rounded-lg transition ${
                       darkMode
                         ? 'hover:bg-gray-800 text-gray-300'
                         : 'hover:bg-gray-100 text-gray-700'
                     }`}
                     title={item.label}
                   >
-                    <Icon size={18} />
+                    <Icon size={20} />
                   </button>
                 );
               })}
@@ -93,20 +93,32 @@ export default function Navbar() {
             </button>
 
             {/* Menú móvil */}
-            <button
-              onClick={() => setMenuAbierto(!menuAbierto)}
-              className="md:hidden p-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition"
-            >
-              {menuAbierto ? (
-                <X className={darkMode ? 'text-gray-400' : 'text-gray-600'} size={20} />
-              ) : (
-                <Menu className={darkMode ? 'text-gray-400' : 'text-gray-600'} size={20} />
-              )}
-            </button>
+            <div className="md:hidden flex items-center gap-2">
+              <button
+                onClick={toggleDarkMode}
+                className="p-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition"
+              >
+                {darkMode ? (
+                  <Sun className="text-yellow-400" size={20} />
+                ) : (
+                  <Moon className="text-gray-600" size={20} />
+                )}
+              </button>
+              <button
+                onClick={() => setMenuAbierto(!menuAbierto)}
+                className="p-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition"
+              >
+                {menuAbierto ? (
+                  <X className={darkMode ? 'text-gray-400' : 'text-gray-600'} size={20} />
+                ) : (
+                  <Menu className={darkMode ? 'text-gray-400' : 'text-gray-600'} size={20} />
+                )}
+              </button>
+            </div>
 
             <button
               onClick={handleLogout}
-              className="flex items-center gap-2 bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg transition"
+              className="flex items-center gap-2 bg-red-500 hover:bg-red-600 text-white px-3 py-2 rounded-lg transition"
             >
               <LogOut size={18} />
               <span className="hidden sm:inline">Salir</span>
@@ -120,9 +132,12 @@ export default function Navbar() {
         <motion.div
           initial={{ opacity: 0, height: 0 }}
           animate={{ opacity: 1, height: 'auto' }}
-          className={`${darkMode ? 'bg-gray-800 border-gray-700' : 'bg-gray-50 border-gray-200'} border-t md:hidden`}
+          className={`${darkMode ? 'bg-gray-900 border-gray-700' : 'bg-gray-50 border-gray-200'} border-t md:hidden`}
         >
           <div className="max-w-7xl mx-auto px-4 py-4 space-y-2">
+            <span className={`px-4 py-2 text-sm font-medium block ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
+              {usuario.nombre}
+            </span>
             {menuItems.map(item => {
               const Icon = item.icono;
               return (
@@ -132,17 +147,47 @@ export default function Navbar() {
                     navigate(item.ruta);
                     setMenuAbierto(false);
                   }}
-                  className={`w-full flex items-center gap-3 px-4 py-2 rounded-lg transition ${
+                  className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition ${
                     darkMode
                       ? 'hover:bg-gray-700 text-gray-300'
                       : 'hover:bg-white text-gray-700'
                   }`}
                 >
-                  <Icon size={18} />
+                  <Icon size={20} />
                   {item.label}
                 </button>
               );
             })}
+            <div className="border-t border-gray-200 dark:border-gray-700 pt-2 space-y-2">
+               <button
+                onClick={() => {
+                  navigate('/dashboard');
+                  setMenuAbierto(false);
+                }}
+                className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition ${
+                  darkMode
+                    ? 'hover:bg-gray-700 text-gray-300'
+                    : 'hover:bg-white text-gray-700'
+                }`}
+              >
+                <BarChart3 size={20} />
+                Dashboard
+              </button>
+              <button
+                onClick={() => {
+                  navigate('/papelera');
+                  setMenuAbierto(false);
+                }}
+                className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition ${
+                  darkMode
+                    ? 'hover:bg-gray-700 text-gray-300'
+                    : 'hover:bg-white text-gray-700'
+                }`}
+              >
+                <Trash2 size={20} />
+                Papelera
+              </button>
+            </div>
           </div>
         </motion.div>
       )}
