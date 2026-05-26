@@ -9,7 +9,7 @@ import { validarContrasena } from '../utils/validaciones';
 export default function CambiarContrasena() {
   const navigate = useNavigate();
   const { usuario, setUsuario } = useAuthStore();
-  const { mostrarNotificacion } = useUIStore();
+  const { mostrarNotificacion, darkMode } = useUIStore();
 
   const [formulario, setFormulario] = useState({
     contrasenaActual: '',
@@ -95,20 +95,20 @@ export default function CambiarContrasena() {
   const esModoRecuperacion = usuario?.id === 'temp';
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-500 via-cyan-500 to-teal-500 flex items-center justify-center p-4">
+    <div className={`min-h-screen flex items-center justify-center p-4 ${darkMode ? 'dark bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900' : 'bg-gradient-to-br from-blue-500 via-cyan-500 to-teal-500'}`}>
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        className="bg-white rounded-2xl shadow-2xl w-full max-w-md p-8"
+        className="bg-white dark:bg-gray-800 rounded-2xl shadow-2xl w-full max-w-md p-8"
       >
         <div className="text-center mb-8">
           <div className="w-16 h-16 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-lg flex items-center justify-center mx-auto mb-4">
             <span className="text-white text-3xl">🔐</span>
           </div>
-          <h1 className="text-3xl font-bold text-gray-900">
+          <h1 className="text-3xl font-bold text-gray-900 dark:text-white">
             {esModoRecuperacion ? 'Crear Nueva Contraseña' : 'Cambiar Contraseña'}
           </h1>
-          <p className="text-gray-600 mt-2">
+          <p className="text-gray-600 dark:text-gray-400 mt-2">
             {esModoRecuperacion 
               ? 'Ingresa una nueva contraseña segura'
               : 'Actualiza tu contraseña de acceso'

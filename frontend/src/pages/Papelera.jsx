@@ -54,8 +54,8 @@ export default function Papelera() {
         animate={{ opacity: 1, y: 0 }}
         className="mb-8"
       >
-        <h1 className="text-4xl font-bold text-gray-900 mb-2">Papelera</h1>
-        <p className="text-gray-600">Contactos eliminados (se borran automáticamente en 30 días)</p>
+        <h1 className="text-4xl font-bold text-gray-900 dark:text-white mb-2">Papelera</h1>
+        <p className="text-gray-600 dark:text-gray-400">Contactos eliminados (se borran automáticamente en 30 días)</p>
       </motion.div>
 
       {cargando ? (
@@ -68,8 +68,8 @@ export default function Papelera() {
           animate={{ opacity: 1 }}
           className="text-center py-16"
         >
-          <Trash2 size={64} className="mx-auto text-gray-300 mb-4" />
-          <p className="text-gray-500 text-lg">Tu papelera está vacía</p>
+          <Trash2 size={64} className="mx-auto text-gray-300 dark:text-gray-600 mb-4" />
+          <p className="text-gray-500 dark:text-gray-400 text-lg">Tu papelera está vacía</p>
         </motion.div>
       ) : (
         <motion.div
@@ -88,12 +88,12 @@ export default function Papelera() {
             return (
               <div
                 key={item.id}
-                className="bg-white border border-gray-200 rounded-lg p-4 flex justify-between items-center"
+                className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-4 flex justify-between items-center"
               >
                 <div className="flex-1">
-                  <h3 className="font-bold text-gray-900">{contacto.nombre}</h3>
-                  <p className="text-gray-600 text-sm">📱 {contacto.telefono}</p>
-                  <p className="text-gray-500 text-xs mt-1">
+                  <h3 className="font-bold text-gray-900 dark:text-white">{contacto.nombre}</h3>
+                  <p className="text-gray-600 dark:text-gray-400 text-sm">📱 {contacto.telefono}</p>
+                  <p className="text-gray-500 dark:text-gray-500 text-xs mt-1">
                     Eliminado: {new Date(item.fecha_eliminacion).toLocaleDateString('es-ES')}
                   </p>
                 </div>

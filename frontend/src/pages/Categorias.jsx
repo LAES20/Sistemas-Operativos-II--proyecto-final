@@ -15,7 +15,7 @@ export default function Categorias() {
     color: '#3498db',
     icono: 'folder'
   });
-  const { mostrarNotificacion } = useUIStore();
+  const { mostrarNotificacion, darkMode } = useUIStore();
 
   const iconos = ['folder', 'briefcase', 'heart', 'star', 'users', 'check', 'tag', 'pin'];
   const colores = ['#3498db', '#2ecc71', '#e74c3c', '#f39c12', '#9b59b6', '#1abc9c', '#34495e', '#c0392b'];
@@ -123,7 +123,7 @@ export default function Categorias() {
     <div className="p-6 max-w-6xl mx-auto">
       <motion.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} className="mb-8">
         <div className="flex justify-between items-center">
-          <h1 className="text-4xl font-bold text-gray-900">Gestión de Categorías</h1>
+          <h1 className="text-4xl font-bold text-gray-900 dark:text-white">Gestión de Categorías</h1>
           {!mostrarFormulario && (
             <button
               onClick={() => setMostrarFormulario(true)}
@@ -140,26 +140,26 @@ export default function Categorias() {
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          className="bg-white rounded-lg shadow-lg p-6 mb-8"
+          className="bg-white dark:bg-gray-800 rounded-lg shadow-lg dark:shadow-xl p-6 mb-8"
         >
-          <h2 className="text-2xl font-bold mb-4">
+          <h2 className="text-2xl font-bold mb-4 text-gray-900 dark:text-white">
             {editando ? 'Editar Categoría' : 'Nueva Categoría'}
           </h2>
           <form onSubmit={handleSubmit} className="space-y-4">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
-                <label className="block text-gray-700 font-semibold mb-2">Nombre *</label>
+                <label className="block text-gray-700 dark:text-gray-300 font-semibold mb-2">Nombre *</label>
                 <input
                   type="text"
                   name="nombre"
                   value={formData.nombre}
                   onChange={handleChange}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
                   required
                 />
               </div>
               <div>
-                <label className="block text-gray-700 font-semibold mb-2">Color</label>
+                <label className="block text-gray-700 dark:text-gray-300 font-semibold mb-2">Color</label>
                 <div className="flex gap-2 flex-wrap">
                   {colores.map(color => (
                     <button
@@ -168,7 +168,7 @@ export default function Categorias() {
                       style={{ backgroundColor: color }}
                       onClick={() => setFormData(prev => ({ ...prev, color }))}
                       className={`w-10 h-10 rounded-lg border-4 transition ${
-                        formData.color === color ? 'border-gray-900' : 'border-transparent'
+                        formData.color === color ? `border-gray-900 dark:border-gray-100` : 'border-transparent'
                       }`}
                     />
                   ))}
@@ -177,7 +177,7 @@ export default function Categorias() {
             </div>
 
             <div>
-              <label className="block text-gray-700 font-semibold mb-2">Ícono</label>
+              <label className="block text-gray-700 dark:text-gray-300 font-semibold mb-2">Ícono</label>
               <div className="flex gap-2 flex-wrap">
                 {iconos.map(icono => (
                   <button
@@ -186,8 +186,8 @@ export default function Categorias() {
                     onClick={() => setFormData(prev => ({ ...prev, icono }))}
                     className={`px-4 py-2 border-2 rounded-lg transition ${
                       formData.icono === icono
-                        ? 'border-blue-500 bg-blue-50'
-                        : 'border-gray-300 hover:border-gray-400'
+                        ? 'border-blue-500 bg-blue-50 dark:bg-blue-900'
+                        : 'border-gray-300 dark:border-gray-600 hover:border-gray-400 dark:hover:border-gray-500 text-gray-900 dark:text-white bg-white dark:bg-gray-700'
                     }`}
                   >
                     {icono}
@@ -197,12 +197,12 @@ export default function Categorias() {
             </div>
 
             <div>
-              <label className="block text-gray-700 font-semibold mb-2">Descripción</label>
+              <label className="block text-gray-700 dark:text-gray-300 font-semibold mb-2">Descripción</label>
               <textarea
                 name="descripcion"
                 value={formData.descripcion}
                 onChange={handleChange}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400"
                 rows="3"
               />
             </div>
@@ -210,14 +210,14 @@ export default function Categorias() {
             <div className="flex gap-4">
               <button
                 type="submit"
-                className="flex-1 bg-blue-500 text-white py-2 rounded-lg font-semibold hover:bg-blue-600 transition"
+                className="flex-1 bg-blue-500 text-white py-2 rounded-lg font-semibold hover:bg-blue-600 dark:hover:bg-blue-700 transition"
               >
                 {editando ? 'Actualizar' : 'Crear'}
               </button>
               <button
                 type="button"
                 onClick={handleCancelar}
-                className="flex-1 bg-gray-300 text-gray-800 py-2 rounded-lg font-semibold hover:bg-gray-400 transition"
+                className="flex-1 bg-gray-300 dark:bg-gray-600 text-gray-800 dark:text-white py-2 rounded-lg font-semibold hover:bg-gray-400 dark:hover:bg-gray-500 transition"
               >
                 Cancelar
               </button>
@@ -228,7 +228,7 @@ export default function Categorias() {
 
       <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {categorias.map(categoria => (
-          <div key={categoria.id} className="bg-white rounded-lg shadow-md p-6">
+          <div key={categoria.id} className="bg-white dark:bg-gray-800 rounded-lg shadow-md dark:shadow-lg p-6">
             <div className="flex items-start justify-between mb-4">
               <div
                 className="w-12 h-12 rounded-lg flex items-center justify-center text-white text-xl"
@@ -242,25 +242,25 @@ export default function Categorias() {
                 <div className="flex gap-2">
                   <button
                     onClick={() => handleEditar(categoria)}
-                    className="text-blue-500 hover:text-blue-700"
+                    className="text-blue-500 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300"
                   >
                     <Edit2 size={18} />
                   </button>
                   <button
                     onClick={() => handleEliminar(categoria.id, categoria.predefinida)}
-                    className="text-red-500 hover:text-red-700"
+                    className="text-red-500 dark:text-red-400 hover:text-red-700 dark:hover:text-red-300"
                   >
                     <Trash2 size={18} />
                   </button>
                 </div>
               )}
             </div>
-            <h3 className="font-bold text-gray-900 mb-1">{categoria.nombre}</h3>
+            <h3 className="font-bold text-gray-900 dark:text-white mb-1">{categoria.nombre}</h3>
             {categoria.descripcion && (
-              <p className="text-gray-600 text-sm mb-3">{categoria.descripcion}</p>
+              <p className="text-gray-600 dark:text-gray-400 text-sm mb-3">{categoria.descripcion}</p>
             )}
-            <div className="flex items-center gap-2 text-xs text-gray-500">
-              {categoria.predefinida && <span className="bg-gray-200 px-2 py-1 rounded">Predefinida</span>}
+            <div className="flex items-center gap-2 text-xs text-gray-500 dark:text-gray-400">
+              {categoria.predefinida && <span className="bg-gray-200 dark:bg-gray-700 text-gray-900 dark:text-gray-300 px-2 py-1 rounded">Predefinida</span>}
             </div>
           </div>
         ))}

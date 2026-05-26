@@ -35,7 +35,7 @@ export const authService = {
   cambiarContrasenaRecuperacion: (email, contrasenaNueva) =>
     client.post('/auth/recuperar/cambiar-contrasena', {
       email,
-      contrasena_nueva: contrasenaNueva
+      contrasenaNueva
     }),
 
   verificarPreguntaSecreta: (email) =>

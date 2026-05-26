@@ -9,7 +9,7 @@ import { validarEmail, validarContrasena } from '../utils/validaciones';
 export default function Login() {
   const navigate = useNavigate();
   const { setUsuario, setCargando, setError } = useAuthStore();
-  const { mostrarNotificacion } = useUIStore();
+  const { mostrarNotificacion, darkMode } = useUIStore();
 
   const [modo, setModo] = useState('login'); // 'login', 'registro', 'recuperar'
   const [formulario, setFormulario] = useState({
@@ -114,10 +114,16 @@ export default function Login() {
     try {
       setCargando(true);
       const response = await authService.verificarPreguntaSecreta(formulario.email);
-      setPregunta(response.data.pregunta);
-      mostrarNotificacion('Pregunta obtenida.', 'success');
+      console.log('Respuesta del servidor:', response.data);
+      if (response.data && response.data.pregunta) {
+        setPregunta(response.data.pregunta);
+        mostrarNotificacion('Pregunta obtenida. Responde para continuar.', 'success');
+      } else {
+        mostrarNotificacion('No se pudo obtener la pregunta. Intenta de nuevo.', 'error');
+      }
     } catch (error) {
-      mostrarNotificacion(error.response?.data?.error || 'Error al obtener pregunta', 'error');
+      console.error('Error:', error);
+      mostrarNotificacion(error.response?.data?.error || 'Email no encontrado', 'error');
     } finally {
       setCargando(false);
     }
@@ -148,7 +154,7 @@ export default function Login() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-500 via-cyan-500 to-teal-500 flex items-center justify-center p-4">
+    <div className={`min-h-screen flex items-center justify-center p-4 ${darkMode ? 'dark bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900' : 'bg-gradient-to-br from-blue-500 via-cyan-500 to-teal-500'}`}>
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -172,7 +178,7 @@ export default function Login() {
                 placeholder="tu@email.com"
                 value={formulario.email}
                 onChange={handleChange}
-                className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 transition bg-white dark:bg-gray-700 dark:text-white ${
+                className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 transition bg-white dark:bg-gray-700 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 ${
                   errores.email ? 'border-red-500 focus:ring-red-500' : 'border-gray-300 dark:border-gray-600 focus:ring-blue-500'
                 }`}
               />
@@ -201,7 +207,7 @@ export default function Login() {
                   setModo('registro');
                   setErrores({});
                 }}
-                className="flex-1 text-center text-blue-500 hover:text-blue-600 font-semibold"
+                className="flex-1 text-center text-blue-500 dark:text-blue-400 hover:text-blue-600 dark:hover:text-blue-300 font-semibold"
               >
                 Registrarse
               </button>
@@ -211,7 +217,7 @@ export default function Login() {
                   setModo('recuperar');
                   setErrores({});
                 }}
-                className="flex-1 text-center text-gray-500 hover:text-gray-600 text-sm"
+                className="flex-1 text-center text-gray-500 dark:text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 text-sm"
               >
                 ¿Olvidaste contraseña?
               </button>
@@ -229,7 +235,7 @@ export default function Login() {
                 placeholder="Tu nombre completo"
                 value={formulario.nombre}
                 onChange={handleChange}
-                className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 transition bg-white dark:bg-gray-700 dark:text-white ${
+                className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 transition bg-white dark:bg-gray-700 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 ${
                   errores.nombre ? 'border-red-500 focus:ring-red-500' : 'border-gray-300 dark:border-gray-600 focus:ring-blue-500'
                 }`}
               />
@@ -267,7 +273,7 @@ export default function Login() {
                 placeholder="¿Cuál es tu comida favorita?"
                 value={formulario.preguntaSecreta}
                 onChange={handleChange}
-                className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 transition bg-white dark:bg-gray-700 dark:text-white ${
+                className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 transition bg-white dark:bg-gray-700 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 ${
                   errores.preguntaSecreta ? 'border-red-500 focus:ring-red-500' : 'border-gray-300 dark:border-gray-600 focus:ring-blue-500'
                 }`}
               />
@@ -282,7 +288,7 @@ export default function Login() {
                 placeholder="Tu respuesta"
                 value={formulario.respuestaSecreta}
                 onChange={handleChange}
-                className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 transition bg-white dark:bg-gray-700 dark:text-white ${
+                className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 transition bg-white dark:bg-gray-700 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 ${
                   errores.respuestaSecreta ? 'border-red-500 focus:ring-red-500' : 'border-gray-300 dark:border-gray-600 focus:ring-blue-500'
                 }`}
               />
@@ -320,9 +326,9 @@ export default function Login() {
                 value={formulario.email}
                 onChange={handleChange}
                 disabled={!!pregunta}
-                className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 transition bg-white dark:bg-gray-700 dark:text-white ${
+              className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 transition bg-white dark:bg-gray-700 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 ${
                   errores.email ? 'border-red-500 focus:ring-red-500' : 'border-gray-300 dark:border-gray-600 focus:ring-blue-500'
-                } ${!!pregunta ? 'bg-gray-100 dark:bg-gray-800' : ''}`}
+                } ${!!pregunta ? 'bg-gray-100 dark:bg-gray-800 cursor-not-allowed' : ''}`}
               />
                {errores.email && <p className="text-red-500 text-sm mt-1">{errores.email}</p>}
             </div>
@@ -336,7 +342,7 @@ export default function Login() {
                   placeholder="Tu respuesta"
                   value={respuesta}
                   onChange={(e) => setRespuesta(e.target.value)}
-                  className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white dark:bg-gray-700 dark:text-white"
+                  className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white dark:bg-gray-700 dark:text-white placeholder-gray-500 dark:placeholder-gray-400"
                 />
               </motion.div>
             )}

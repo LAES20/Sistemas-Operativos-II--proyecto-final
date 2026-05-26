@@ -1,11 +1,15 @@
 import { motion } from 'framer-motion';
 import { Info, Code, Users, Database } from 'lucide-react';
 
+import { useUIStore } from '../store/store';
+
 export default function Ayuda() {
+  const { darkMode } = useUIStore();
+
   return (
-    <div className="p-6 max-w-4xl mx-auto">
+    <div className={`p-6 max-w-4xl mx-auto ${darkMode ? 'dark' : ''}`}>
       <motion.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} className="mb-8">
-        <h1 className="text-4xl font-bold text-gray-900">Acerca de Agenda de Contactos</h1>
+        <h1 className="text-4xl font-bold text-gray-900 dark:text-white">Acerca de Agenda de Contactos</h1>
       </motion.div>
 
       {/* Logo y título principal */}
@@ -25,25 +29,25 @@ export default function Ayuda() {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 0.2 }}
-        className="bg-white rounded-lg shadow-md p-6 mb-8"
+        className="bg-white dark:bg-gray-800 rounded-lg shadow-md dark:shadow-lg p-6 mb-8"
       >
         <div className="flex items-center gap-3 mb-6">
           <Info size={24} className="text-blue-500" />
-          <h2 className="text-2xl font-bold text-gray-900">Información de Versión</h2>
+          <h2 className="text-2xl font-bold text-gray-900 dark:text-white">Información de Versión</h2>
         </div>
 
         <div className="space-y-4">
           <div className="flex justify-between items-center">
-            <span className="text-gray-600">Versión</span>
-            <span className="font-semibold text-gray-900">1.0.0</span>
+            <span className="text-gray-600 dark:text-gray-400">Versión</span>
+            <span className="font-semibold text-gray-900 dark:text-white">1.0.0</span>
           </div>
           <div className="flex justify-between items-center">
-            <span className="text-gray-600">Fecha de lanzamiento</span>
-            <span className="font-semibold text-gray-900">22 de mayo de 2026</span>
+            <span className="text-gray-600 dark:text-gray-400">Fecha de lanzamiento</span>
+            <span className="font-semibold text-gray-900 dark:text-white">22 de mayo de 2026</span>
           </div>
           <div className="flex justify-between items-center">
-            <span className="text-gray-600">Estado</span>
-            <span className="bg-green-100 text-green-700 px-3 py-1 rounded font-semibold">Producción</span>
+            <span className="text-gray-600 dark:text-gray-400">Estado</span>
+            <span className="bg-green-100 dark:bg-green-900 text-green-700 dark:text-green-300 px-3 py-1 rounded font-semibold">Producción</span>
           </div>
         </div>
       </motion.div>
@@ -53,54 +57,54 @@ export default function Ayuda() {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 0.3 }}
-        className="bg-white rounded-lg shadow-md p-6 mb-8"
+        className="bg-white dark:bg-gray-800 rounded-lg shadow-md dark:shadow-lg p-6 mb-8"
       >
         <div className="flex items-center gap-3 mb-6">
           <Code size={24} className="text-blue-500" />
-          <h2 className="text-2xl font-bold text-gray-900">Características</h2>
+          <h2 className="text-2xl font-bold text-gray-900 dark:text-white">Características</h2>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div className="flex gap-3">
             <span className="text-blue-500 text-xl">✓</span>
             <div>
-              <p className="font-semibold text-gray-900">Gestión de Contactos</p>
-              <p className="text-gray-600 text-sm">Crear, editar, eliminar y buscar contactos</p>
+              <p className="font-semibold text-gray-900 dark:text-white">Gestión de Contactos</p>
+              <p className="text-gray-600 dark:text-gray-400 text-sm">Crear, editar, eliminar y buscar contactos</p>
             </div>
           </div>
           <div className="flex gap-3">
             <span className="text-blue-500 text-xl">✓</span>
             <div>
-              <p className="font-semibold text-gray-900">Categorización</p>
-              <p className="text-gray-600 text-sm">Organiza contactos por categorías personalizadas</p>
+              <p className="font-semibold text-gray-900 dark:text-white">Categorización</p>
+              <p className="text-gray-600 dark:text-gray-400 text-sm">Organiza contactos por categorías personalizadas</p>
             </div>
           </div>
           <div className="flex gap-3">
             <span className="text-blue-500 text-xl">✓</span>
             <div>
-              <p className="font-semibold text-gray-900">Favoritos</p>
-              <p className="text-gray-600 text-sm">Marca contactos importantes como favoritos</p>
+              <p className="font-semibold text-gray-900 dark:text-white">Favoritos</p>
+              <p className="text-gray-600 dark:text-gray-400 text-sm">Marca contactos importantes como favoritos</p>
             </div>
           </div>
           <div className="flex gap-3">
             <span className="text-blue-500 text-xl">✓</span>
             <div>
-              <p className="font-semibold text-gray-900">Papelera de Reciclaje</p>
-              <p className="text-gray-600 text-sm">Recupera contactos eliminados hasta 30 días</p>
+              <p className="font-semibold text-gray-900 dark:text-white">Papelera de Reciclaje</p>
+              <p className="text-gray-600 dark:text-gray-400 text-sm">Recupera contactos eliminados hasta 30 días</p>
             </div>
           </div>
           <div className="flex gap-3">
             <span className="text-blue-500 text-xl">✓</span>
             <div>
-              <p className="font-semibold text-gray-900">Dashboard</p>
-              <p className="text-gray-600 text-sm">Visualiza estadísticas de tus contactos</p>
+              <p className="font-semibold text-gray-900 dark:text-white">Dashboard</p>
+              <p className="text-gray-600 dark:text-gray-400 text-sm">Visualiza estadísticas de tus contactos</p>
             </div>
           </div>
           <div className="flex gap-3">
             <span className="text-blue-500 text-xl">✓</span>
             <div>
-              <p className="font-semibold text-gray-900">Seguridad</p>
-              <p className="text-gray-600 text-sm">Autenticación JWT y encriptación de datos</p>
+              <p className="font-semibold text-gray-900 dark:text-white">Seguridad</p>
+              <p className="text-gray-600 dark:text-gray-400 text-sm">Autenticación JWT y encriptación de datos</p>
             </div>
           </div>
         </div>
@@ -111,17 +115,17 @@ export default function Ayuda() {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 0.4 }}
-        className="bg-white rounded-lg shadow-md p-6 mb-8"
+        className="bg-white dark:bg-gray-800 rounded-lg shadow-md dark:shadow-lg p-6 mb-8"
       >
         <div className="flex items-center gap-3 mb-6">
           <Code size={24} className="text-blue-500" />
-          <h2 className="text-2xl font-bold text-gray-900">Stack Tecnológico</h2>
+          <h2 className="text-2xl font-bold text-gray-900 dark:text-white">Stack Tecnológico</h2>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div>
-            <h3 className="font-bold text-gray-900 mb-3">Frontend</h3>
-            <ul className="space-y-2 text-gray-600 text-sm">
+            <h3 className="font-bold text-gray-900 dark:text-white mb-3">Frontend</h3>
+            <ul className="space-y-2 text-gray-600 dark:text-gray-400 text-sm">
               <li>• React 18.2.0</li>
               <li>• Vite 5.4.21</li>
               <li>• React Router v6</li>
@@ -131,8 +135,8 @@ export default function Ayuda() {
             </ul>
           </div>
           <div>
-            <h3 className="font-bold text-gray-900 mb-3">Backend</h3>
-            <ul className="space-y-2 text-gray-600 text-sm">
+            <h3 className="font-bold text-gray-900 dark:text-white mb-3">Backend</h3>
+            <ul className="space-y-2 text-gray-600 dark:text-gray-400 text-sm">
               <li>• Node.js + Express.js</li>
               <li>• MySQL 8.4.7</li>
               <li>• JWT para autenticación</li>
@@ -149,25 +153,25 @@ export default function Ayuda() {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 0.5 }}
-        className="bg-white rounded-lg shadow-md p-6 mb-8"
+        className="bg-white dark:bg-gray-800 rounded-lg shadow-md dark:shadow-lg p-6 mb-8"
       >
         <div className="flex items-center gap-3 mb-6">
           <Database size={24} className="text-blue-500" />
-          <h2 className="text-2xl font-bold text-gray-900">Base de Datos</h2>
+          <h2 className="text-2xl font-bold text-gray-900 dark:text-white">Base de Datos</h2>
         </div>
 
-        <div className="space-y-3 text-gray-600 mb-4">
+        <div className="space-y-3 text-gray-600 dark:text-gray-400 mb-4">
           <p>
-            <span className="font-semibold text-gray-900">Normalización:</span> 3ª Forma Normal (3FN)
+            <span className="font-semibold text-gray-900 dark:text-white">Normalización:</span> 3ª Forma Normal (3FN)
           </p>
           <p>
-            <span className="font-semibold text-gray-900">Tablas:</span> 9 tablas relacionales con integridad referencial
+            <span className="font-semibold text-gray-900 dark:text-white">Tablas:</span> 9 tablas relacionales con integridad referencial
           </p>
         </div>
 
-        <div className="bg-gray-50 rounded p-4">
-          <p className="text-sm font-semibold text-gray-900 mb-2">Tablas del sistema:</p>
-          <ul className="text-sm text-gray-600 space-y-1">
+        <div className="bg-gray-50 dark:bg-gray-700 rounded p-4">
+          <p className="text-sm font-semibold text-gray-900 dark:text-white mb-2">Tablas del sistema:</p>
+          <ul className="text-sm text-gray-600 dark:text-gray-400 space-y-1">
             <li>• usuarios - Gestión de cuentas de usuario</li>
             <li>• categorias - Categorías predefinidas y personalizadas</li>
             <li>• contactos - Información de contactos</li>
@@ -186,14 +190,14 @@ export default function Ayuda() {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 0.6 }}
-        className="bg-white rounded-lg shadow-md p-6"
+        className="bg-white dark:bg-gray-800 rounded-lg shadow-md dark:shadow-lg p-6"
       >
         <div className="flex items-center gap-3 mb-6">
           <Users size={24} className="text-blue-500" />
-          <h2 className="text-2xl font-bold text-gray-900">Créditos</h2>
+          <h2 className="text-2xl font-bold text-gray-900 dark:text-white">Créditos</h2>
         </div>
 
-        <p className="text-gray-600 mb-4">
+        <p className="text-gray-600 dark:text-gray-400 mb-4">
           <span className="font-semibold text-gray-900">Sistema Operativo:</span> Linux
         </p>
 
