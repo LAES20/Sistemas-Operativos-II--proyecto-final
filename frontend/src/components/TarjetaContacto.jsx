@@ -1,9 +1,15 @@
 import { motion } from 'framer-motion';
-import { Trash2, Heart, Edit2 } from 'lucide-react';
+import { Trash2, Heart, Edit2, Send } from 'lucide-react';
 import { obtenerIniciales, generarColorPorNombre } from '../utils/helpers';
 
 export default function TarjetaContacto({ contacto, onEditar, onEliminar, onFavorito }) {
   const color = generarColorPorNombre(contacto.nombre);
+
+  const handleWhatsApp = () => {
+    const numeroLimpio = contacto.telefono.replace(/\D/g, '');
+    const mensaje = encodeURIComponent('Hola');
+    window.open(`https://wa.me/${numeroLimpio}?text=${mensaje}`, '_blank');
+  };
 
   return (
     <motion.div
@@ -49,6 +55,13 @@ export default function TarjetaContacto({ contacto, onEditar, onEliminar, onFavo
             title="Favorito"
           >
             <Heart size={16} fill={contacto.favorito ? 'currentColor' : 'none'} />
+          </button>
+          <button
+            onClick={handleWhatsApp}
+            className="flex-1 bg-green-100 hover:bg-green-200 dark:bg-green-900 dark:hover:bg-green-800 text-green-600 dark:text-green-400 py-1.5 md:py-2 rounded-lg transition flex items-center justify-center gap-1"
+            title="Enviar WhatsApp"
+          >
+            <Send size={16} />
           </button>
           <button
             onClick={() => onEditar(contacto.id)}
